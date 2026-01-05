@@ -1,7 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -19,6 +18,7 @@
     <properties>
         <java.version>21</java.version>
         <camel.version>4.6.0</camel.version>
+        <lombok.version>1.18.34</lombok.version>
     </properties>
 
     <dependencyManagement>
@@ -30,12 +30,21 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+            <dependency>
+                <groupId>ma.fsr.soa</groupId>
+                <artifactId>cabinet-repo</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <modules>
+        <module>cabinet-repo</module>
         <module>cabinet-esb</module>
-        <!-- <module>patient-service-api</module> -->
-        <!-- ... -->
+        <module>patient-service-api</module>
+        <module>medecin-service-api</module>
+        <module>rendezvous-service-api</module>
     </modules>
+
 </project>
