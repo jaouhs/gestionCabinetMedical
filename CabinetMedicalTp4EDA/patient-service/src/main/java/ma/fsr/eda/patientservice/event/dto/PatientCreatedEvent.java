@@ -1,8 +1,5 @@
-package ma.fsr.eda.patientservice.model;
+package ma.fsr.eda.patientservice.event.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,17 +7,16 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@NoArgsConstructor
 @Data
-public class Patient {
-    @Id
-    @GeneratedValue
-    private Long id;
+public class PatientCreatedEvent {
+    private String eventId;
+    private Long patientId;
     private String nom;
     private LocalDate dateNaissance;
-    private String genre;
     private String telephone;
+    private String genre;
     private LocalDateTime dateCreation;
 }
+

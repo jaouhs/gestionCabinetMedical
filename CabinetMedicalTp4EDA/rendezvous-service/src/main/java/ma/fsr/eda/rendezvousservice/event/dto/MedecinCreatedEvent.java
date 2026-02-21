@@ -1,22 +1,17 @@
-package ma.fsr.eda.medecinservice.model;
+package ma.fsr.eda.rendezvousservice.event.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Data
-@NoArgsConstructor
 @AllArgsConstructor
-@Entity
-public class Medecin {
-    @Id
-    @GeneratedValue
-    private Long id;
+@NoArgsConstructor
+@Data
+public class MedecinCreatedEvent {
+    private String eventId;
+    private Long medecinId;
     private String nom;
     private String specialite;
     private String email;

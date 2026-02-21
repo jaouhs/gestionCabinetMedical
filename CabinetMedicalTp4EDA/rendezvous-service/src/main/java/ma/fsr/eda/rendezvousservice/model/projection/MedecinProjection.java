@@ -1,4 +1,4 @@
-package ma.fsr.eda.medecinservice.model;
+package ma.fsr.eda.rendezvousservice.model.projection;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,17 +9,15 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Medecin {
-    @Id
-    @GeneratedValue
+@Data
+public class MedecinProjection {
+    @Id 
     private Long id;
     private String nom;
     private String specialite;
     private String email;
     private LocalDateTime dateCreation;
 }
-

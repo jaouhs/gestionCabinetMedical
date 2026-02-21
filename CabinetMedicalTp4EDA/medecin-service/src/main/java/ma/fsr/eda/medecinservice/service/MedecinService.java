@@ -1,11 +1,13 @@
 package ma.fsr.eda.medecinservice.service;
 
 
+import ma.fsr.eda.medecinservice.event.producer.MedecinEventProducer;
 import ma.fsr.eda.medecinservice.model.Medecin;
 import ma.fsr.eda.medecinservice.repository.MedecinRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +16,9 @@ public class MedecinService {
 
     @Autowired
     MedecinRepository medecinRepository;
+
+    @Autowired
+    MedecinEventProducer medecinEventProducer;
 
     public Medecin create(Medecin medecin) throws Exception {
         if (medecin.getNom() == null || medecin.getNom().isBlank()) {
@@ -29,7 +34,12 @@ public class MedecinService {
         if(!medecin.getEmail().contains("@")) {
             throw new Exception("Email du médecin invalide.");
         }
-        return medecinRepository.save(medecin);
+        medecin.setDateCreation(LocalDateTime.now());
+        Medecin medecinSaved = medecinRepository.save(medecin);
+
+        medecinEventProducer.publishMedecinCreated(medecinSaved);
+
+        return medecinSaved;
     }
 
 
