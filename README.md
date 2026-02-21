@@ -57,15 +57,17 @@ Ces fonctionnalités sont **introduites progressivement**, selon l’architectur
 ```text
 gestionCabinetMedical/
 │
-├── cabinetMedicalTp1/        # TP1 – Application monolithique
+├── cabinetMedicalTp1/        			# TP1 – Application monolithique
 │
-├── cabinetMedicalTp2SOA/     # TP2 – Architecture SOA avec ESB
+├── cabinetMedicalTp2SOA/     			# TP2 – Architecture SOA avec ESB
 │
-├── cabinetMedicalTp3MS/      # À venir – Microservices
+├── cabinetMedicalTp3MS/      			# TP3-1 – Mise en oeuvre d’une architecture Microservices (REST)
 │
-├── cabinetMedicalTp4EDA/     # À venir – Architecture orientée événements
+├── cabinetMedicalTp3MS-discovery/     	# TP3-2 – Mise en oeuvre d’une architecture Microservices (REST) avec la mise en place de discovery service
 │
-├── cabinetMedicalTp5IA/      # À venir – Agents IA
+├── cabinetMedicalTp4EDA/     			# TP4 – Architecture Event-Driven (EDA) avec Kafka
 │
-└── README.md                 # Documentation globale du projet
+├── cabinetMedicalTp5IA/      			# À venir – Agents IA
+│
+└── README.md                 			# Documentation globale du projet
 
