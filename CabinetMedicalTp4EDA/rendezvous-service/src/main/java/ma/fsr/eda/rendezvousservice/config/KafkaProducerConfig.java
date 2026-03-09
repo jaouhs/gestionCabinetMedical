@@ -1,6 +1,7 @@
 package ma.fsr.eda.rendezvousservice.config;
 
 import ma.fsr.eda.rendezvousservice.event.dto.RendezVousCreatedEvent;
+import ma.fsr.eda.rendezvousservice.event.dto.RendezVousFailedEvent;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,9 +30,27 @@ public class KafkaProducerConfig {
         return new DefaultKafkaProducerFactory<>(config);
     }
 
-    @Bean
+    @Bean("createdKafkaTemplate")
     public KafkaTemplate<String, RendezVousCreatedEvent> kafkaTemplate(
             ProducerFactory<String, RendezVousCreatedEvent> producerFactory) {
+        return new KafkaTemplate<>(producerFactory);
+    }
+
+    @Bean
+    public ProducerFactory<String, RendezVousFailedEvent> producerFactory2(
+            @Value("${spring.kafka.bootstrap-servers}") String bootstrapServers) {
+
+        Map<String, Object> config = new HashMap<>();
+        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+
+        return new DefaultKafkaProducerFactory<>(config);
+    }
+
+    @Bean("failedKafkaTemplate")
+    public KafkaTemplate<String, RendezVousFailedEvent> kafkaTemplate2(
+            ProducerFactory<String, RendezVousFailedEvent> producerFactory) {
         return new KafkaTemplate<>(producerFactory);
     }
 }

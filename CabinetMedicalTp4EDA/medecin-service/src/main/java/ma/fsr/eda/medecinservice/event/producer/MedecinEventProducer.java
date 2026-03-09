@@ -21,6 +21,6 @@ public class MedecinEventProducer {
                 medecin.getEmail(),
                 medecin.getDateCreation()
         );
-        kafkaTemplate.send("medecin.created", medecin.getId().toString(), event);
+        kafkaTemplate.send("medecin.created", event.getEventId(), event);
     }
 }

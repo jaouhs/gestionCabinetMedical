@@ -22,7 +22,7 @@ public class PatientEventProducer {
                 patient.getGenre(),
                 patient.getDateCreation()
         );
-        kafkaTemplate.send("patient.created", patient.getId().toString(), event);
+        kafkaTemplate.send("patient.created", event.getEventId(), event);
     }
 }
 

@@ -1,6 +1,7 @@
 package ma.fsr.eda.rendezvousservice.service;
 
 import lombok.extern.slf4j.Slf4j;
+import ma.fsr.eda.rendezvousservice.event.producer.RendezVousEventProducer;
 import ma.fsr.eda.rendezvousservice.model.RendezVous;
 import ma.fsr.eda.rendezvousservice.model.StatutRdv;
 import ma.fsr.eda.rendezvousservice.repository.MedecinProjectionRepository;
@@ -25,29 +26,45 @@ public class RendezVousService {
     @Autowired
     private MedecinProjectionRepository medecinProjectionRepository;
 
+    @Autowired
+    RendezVousEventProducer rendezVousEventProducer;
+
     public RendezVous create(RendezVous rdv) {
 
         log.info("RendezVous : {}", rdv);
         if (rdv.getDateRdv() == null) {
-            throw new RuntimeException("La date du rendez-vous est obligatoire.");
+            String error = "La date du rendez-vous est obligatoire.";
+            rendezVousEventProducer.publishRendezVousCreationFailed(error, rdv);
+            throw new RuntimeException(error);
         }
 
         if (rdv.getDateRdv().isBefore(LocalDateTime.now())) {
-            throw new RuntimeException("La date du rendez-vous doit être future.");
+            String error = "La date du rendez-vous doit être future.";
+            rendezVousEventProducer.publishRendezVousCreationFailed(error, rdv);
+            throw new RuntimeException(error);
         }
 
         if(!patientProjectionRepository.existsById(rdv.getPatientId())) {
-            throw new RuntimeException("Patient introuvable.");
+            String error = "Patient introuvable.";
+            log.info("error {} pour le rdv {}", error, rdv);
+            rendezVousEventProducer.publishRendezVousCreationFailed(error, rdv);
+            throw new RuntimeException(error);
         }
 
         if(!medecinProjectionRepository.existsById(rdv.getMedecinId())) {
-            throw new RuntimeException("Médecin introuvable.");
+            String error = "Médecin introuvable.";
+            rendezVousEventProducer.publishRendezVousCreationFailed(error, rdv);
+            throw new RuntimeException(error);
         }
 
         rdv.setDateCreation(LocalDateTime.now());
-
         rdv.setStatut(StatutRdv.PLANIFIE);
-        return repository.save(rdv);
+
+        RendezVous rendezVousSaved = repository.save(rdv);
+
+        rendezVousEventProducer.publishRendezVousCreated(rendezVousSaved);
+
+        return rendezVousSaved;
     }
 
     public List<RendezVous> list() {
